@@ -1,0 +1,20 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.metrics import accuracy_score, classification_report  
+from sklearn.datasets import load_iris
+data = load_iris()
+X = pd.DataFrame(data.data, columns=data.feature_names)
+y = pd.DataFrame(data.target, columns=['target'])
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+dt_model = DecisionTreeClassifier(max_depth=3, random_state=42)
+dt_model.fit(X_train, y_train)
+ plt.figure(figsize=(12, 8))
+plot_tree(dt_model, feature_names=X.columns, class_names=['Class 0', 'Class 1', 'Class 2'], filled=True)
+plt.show()
+y_pred = dt_model.predict(X_test)
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print(classification_report(y_test, y_pred))
